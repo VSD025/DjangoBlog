@@ -20,9 +20,14 @@ page-header {
     margin-left: 40px;
     }
 
-h1, h2, h3, h4 {
+h1 {
     font-family: 'Lobster', cursive;
     }
+
+
+h3{
+    margin-right: : auto;
+}
 
 .date {
     float: right;
@@ -84,7 +89,7 @@ h1, h2, h3, h4 {
 100% {
     background-position: 0 0;
 }
-}
+
 @-moz-keyframes progress-bar-stripes {
 0% {
     background-position: 40px 0;
@@ -92,4 +97,8 @@ h1, h2, h3, h4 {
 100% {
     background-position: 0 0;
 }
+
+.btn btn-default {
+    text-align: right;
 }
+

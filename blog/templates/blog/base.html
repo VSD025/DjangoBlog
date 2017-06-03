@@ -7,13 +7,14 @@
     		<link rel="stylesheet" href="{% static 'css/blog.css' %}">
     		<link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
         </head>
-        <body>
+        <body class="body">
             <div class="page-header">
-                <a href="{% url 'post_new' %}" class="top-menu"><span class="glyphicon glyphicon-plus"></span></a>
                 <center>
                 <h1><a href="/">Blog</a></h1>
                 </center>
-                <h3><a href = "http://127.0.0.1:8000/post/new/">Create Post</a></h3>
+                <center>
+                <h1><a class="create-post" href = "http://127.0.0.1:8000/post/new/">Create Post</a></h1>
+                </center>
             </div>
             <div class="content container">
                 <div class="row">
@@ -24,4 +25,7 @@
                 </div>
             </div>
         </body>
+        <footer>
+            <p>Designed by Valeriy Novikov</p>
+        </footer>
     </html>

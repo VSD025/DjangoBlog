@@ -13,7 +13,7 @@
                 <span class="button icon .add">Add to post</span>
             </a>
         </div>
-        <div class = 'comments'>
+        <div class = 'comments_count'>
             {% with comments.count as total_comments %}
             <h2>
                 {{ total_comments }} comment{{ total_comments|pluralize }}
@@ -22,10 +22,10 @@
         
         {% for comment in comments %}
         <div class="comment">
-                Comment {{ forloop.counter }} by {{ comment.name }}
+                <p class = "comment_by">Comment {{ forloop.counter }} by {{ comment.name }}</p>
                 <p class="ncy">{{ comment.created }}</p>
             </p>
-        <p class="ncy">{{ comment.body|linebreaks }}</p>
+        <p class="ncy"><p>Comment: {{ comment.body|linebreaks }}</p></p>
         </div>
     {% empty %}
         <p class ='ncy'>There are no comments yet.</p>

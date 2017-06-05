@@ -5,8 +5,12 @@ h1 a {
 
 .comment{
      font: bold 23px segoe script;
+     padding-bottom: 25px;
 }
 
+.comments_count {
+    padding-bottom: 23px;
+}
 .body {
         padding-left: 15px;
         background-color: #e8f6ff;
@@ -51,7 +55,11 @@ h3 {
     }
 
 .ncy {
-    font:bold 18px segoe script;
+    font:bold 14px segoe script;
+}
+
+.comment_by {
+    font: bold; 13px segoe script
 }
 .save {
     float: right;

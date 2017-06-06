@@ -1,13 +1,15 @@
 {% load staticfiles %}
- <html>
-        <head>
-            <title>Django Blog</title>
+<head>
+            <title>Search</title>
             <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
     		<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
     		<link rel="stylesheet" href="{% static 'css/blog.css' %}">
     		<link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
         </head>
-        <body class="body">
+
+
+
+<body class="body">
             <div class="page-header">
                 <center>
                 <h1><a href="/">Blog</a></h1>
@@ -18,16 +20,13 @@
                 <h1><a class="create-post" href = "http://127.0.0.1:8000/post/new/">Create Post</a></h1>
                 </center>
             </div>
-            <div class="content container">
-                <div class="row">
-                    <div class="col-md-8">
-                        {% block content %}
-                        {% endblock %}
-                    </div>
-                </div>
-            </div>
-        </body>
-        <footer class="page-footer">
-            <p>© Designed by Valeriy Novikov</p>
-        </footer>
-    </html>
+    <form action="/search/" method="get">
+    <div class = "search_block">
+    <a class = "search_block">
+        <input type="text" name="q" class = "search_block">
+        <input type="submit" value="Search" class = "search_block">
+    </a>
+    </div>
+    </form>
+</body>
+</html>

@@ -5,6 +5,10 @@ from django.shortcuts import render, get_object_or_404
 from .forms import PostForm
 from django.shortcuts import redirect
 from .forms import PostForm, CommentForm
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+
+
 
 
 def post_list(request):
@@ -55,7 +59,16 @@ def post_edit(request, pk):
 	return render(request, 'blog/post_edit.html', {'form': form})
 
 
-def search_form(request):
-    return render_to_response('search.html')
 
-# Create your views here.
+def search_form(request):
+	return render(request,'blog/search_form.html')
+
+
+def search(request):
+    if 'q' in request.GET and request.GET['q']:
+        q = request.GET['q']
+        posts = Post.objects.filter(title__icontains=q)
+        return render_to_response('blog/post_list.html',
+            {'posts': posts, 'query': q})
+    else:
+        return HttpResponse('Please submit a search term.')

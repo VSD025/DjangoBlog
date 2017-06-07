@@ -18,6 +18,10 @@ h1 a {
     text-align: center;
 }
 
+.sign_up_in {
+    font: bold 17px segoe script;
+    margin-left: 1000px;
+}
 
 .body {
         padding-left: 15px;

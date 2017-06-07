@@ -9,4 +9,8 @@ urlpatterns = [
     url(r'^post/(?P<pk>[0-9]+)/edit/$', views.post_edit, name='post_edit'),
 	url(r'^search_form/$', views.search_form, name = 'search_form'),
 	url(r'^search/$', views.search, name = 'search_result'),
+	url(r'^register/$', views.RegisterFormView.as_view(), name = 'registration'),
+	url(r'^login/$', views.LoginFormView.as_view(), name = 'login'),
+	url(r'^logout/$', views.LogoutView.as_view(), name = 'logout'),
+
 ] 

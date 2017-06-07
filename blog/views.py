@@ -7,8 +7,13 @@ from django.shortcuts import redirect
 from .forms import PostForm, CommentForm
 from django.http import HttpResponse
 from django.shortcuts import render_to_response
-
-
+from django.http import HttpResponseRedirect
+from django.views.generic.base import View
+from django.contrib.auth import logout
+from django.contrib.auth import login
+from django.views.generic.edit import FormView
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import AuthenticationForm
 
 
 def post_list(request):
@@ -65,10 +70,39 @@ def search_form(request):
 
 
 def search(request):
-    if 'q' in request.GET and request.GET['q']:
-        q = request.GET['q']
-        posts = Post.objects.filter(title__icontains=q)
-        return render_to_response('blog/post_list.html',
-            {'posts': posts, 'query': q})
+    if 'inquiry' in request.GET and request.GET['inquiry']:
+        inquiry = request.GET['inquiry']
+        posts = Post.objects.filter(title__icontains=inquiry)
+        return render_to_response('blog/post_list.html',{'posts': posts, 'query': inquiry})
     else:
-        return HttpResponse('Please submit a search term.')
+        return HttpResponse('Please submit a search term!')
+
+
+
+class RegisterFormView(FormView):
+    form_class = UserCreationForm
+    success_url = '/login/'
+    template_name = 'blog/register.html'
+
+    def form_valid(self, form):
+        form.save()
+        return super(RegisterFormView, self).form_valid(form)
+
+
+
+class LoginFormView(FormView):
+    form_class = AuthenticationForm
+    template_name = 'blog/login.html'
+    success_url = 'http://127.0.0.1:8000/'
+
+    def form_valid(self, form):
+        self.user = form.get_user()
+        login(self.request, self.user)
+        return super(LoginFormView, self).form_valid(form)
+
+
+
+class LogoutView(View):
+    def get(self, request):
+        logout(request)
+        return HttpResponseRedirect('/')

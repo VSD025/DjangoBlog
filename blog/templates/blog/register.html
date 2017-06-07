@@ -1,0 +1,32 @@
+{% load staticfiles %}
+<html>
+  <head>
+    <title>Sign up</title>
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static 'css/blog.css' %}">
+        <link href="https://fonts.googleapis.com/css?family=Lobster&subset=latin,cyrillic" rel="stylesheet" type="text/css">
+  </head>
+  <body class="body">
+            <div class="page-header">
+                <center>
+                <h1><a href="/">Blog</a></h1>
+                </center>
+                <center>
+                <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+                <h2><a class = "search" href="http://127.0.0.1:8000/search_form">Search</a></h2>
+                <h1><a class="create-post" href = "http://127.0.0.1:8000/post/new/">Create Post</a></h1>
+                </center>
+            </div>
+            <div><h1>Sign up:</h1>
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button type="submit">Sign up</button>
+    </form>
+    </div>
+        <footer class="page-footer">
+            <p>© Designed by Valeriy Novikov</p>
+    </footer>
+  </body>
+</html>

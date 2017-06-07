@@ -18,7 +18,6 @@ Blog on Django
 Кратко о конструкции проекта:
 ====================================================
 - Все html шаблоны - my-first-blog\blog\templates\blog
-- Тесты - my-first-blog\blog\tests.py
 - CSS фаил - my-first-blog\blog\static\css\css.py
 - Библиотеки установленные в виртуальном окружении - my-first-blog\myvenv\Lib\site-packages
 

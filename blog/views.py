@@ -16,54 +16,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
-def post_list(request):
-	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-	return render(request,'blog/post_list.html',{'posts':posts})
-
-def post_detail(request,pk):
-	post = get_object_or_404(Post, pk=pk)
-	comments = post.comments.filter(active=True)
-	if request.method == "POST":
-		comment_form = CommentForm(data=request.POST)
-		if comment_form.is_valid():
-			new_comment = comment_form.save(commit=False)
-			new_comment.post = post
-			new_comment.save()
-			return redirect('post_detail',pk=post.pk)
-	else:
-		comment_form = CommentForm()
-	return render(request,'blog/post_detail.html',{'post': post,'comments': comments,'comment_form': comment_form})
-
-
-def post_new(request):
-        if request.method == "POST":
-            form = PostForm(request.POST)
-            if form.is_valid():
-                post = form.save(commit=False)
-                post.author = request.user
-                post.published_date = timezone.now()
-                post.save()
-                return redirect('post_detail', pk=post.pk)
-        else:
-            form = PostForm()
-        return render(request, 'blog/post_edit.html', {'form': form})
-
-
-def post_edit(request, pk):
-	post = get_object_or_404(Post, pk=pk)
-	if request.method == "POST":
-		form = PostForm(request.POST, instance=post)
-		if form.is_valid():
-			post = form.save(commit=False)
-			post.author = request.user
-			post.published_date = timezone.now()
-			post.save()
-		return redirect('post_detail', pk=post.pk)
-	else:
-		form = PostForm(instance=post)
-	return render(request, 'blog/post_edit.html', {'form': form})
-
-
 
 def search_form(request):
 	return render(request,'blog/search_form.html')
@@ -106,3 +58,68 @@ class LogoutView(View):
     def get(self, request):
         logout(request)
         return HttpResponseRedirect('/')
+
+
+
+def post_list(request):
+	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+	return render(request,'blog/post_list.html',{'posts':posts})
+
+
+
+def post_detail(request, pk):
+	if request.user.is_authenticated:
+		post = get_object_or_404(Post, pk=pk)
+		comments = post.comments.filter(active=True)
+		if request.method == "POST":
+			comment_form = CommentForm(data=request.POST)
+			if comment_form.is_valid():
+				new_comment = comment_form.save(commit=False)
+				new_comment.post = post
+				new_comment.save()
+			return redirect('post_detail',pk=post.pk)
+		else:
+			comment_form = CommentForm()
+			return render(request,'blog/post_detail.html',{'post': post,'comments': comments,'comment_form': comment_form})
+
+
+
+
+def post_new(request):
+    if request.user.is_authenticated:
+        if request.method == "POST":
+            form = PostForm(request.POST)
+            if form.is_valid():
+                post = form.save(commit=False)
+                post.author = request.user
+                post.published_date = timezone.now()
+                post.save()
+                return redirect('post_detail', pk=post.pk)
+        else:
+            form = PostForm()
+        return render(request, 'blog/post_edit.html', {'form': form})
+
+
+
+
+
+def post_edit(request, pk):
+	if request.user.is_authenticated:
+		post = get_object_or_404(Post, pk=pk)
+		if request.user == post.author:
+			if request.method == "POST":
+				form = PostForm(request.POST, instance=post)
+				if form.is_valid():
+					post = form.save(commit=False)
+					post.author = request.user
+					post.published_date = timezone.now()
+					post.save()
+				return redirect('post_detail', pk=post.pk)
+			else:
+				form = PostForm(instance=post)
+			return render(request, 'blog/post_edit.html', {'form': form})
+		else:
+			return render(request, 'blog/not_owner.html')
+
+
+

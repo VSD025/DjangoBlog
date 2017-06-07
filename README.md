@@ -15,10 +15,10 @@ Django Blog
 
 Кратко о конструкции проекта:
 ====================================================
-Все html шаблоны - my-first-blog\blog\templates\blog
-Тесты - my-first-blog\blog\tests
-CSS фаил - my-first-blog\blog\static\css
-Библиотеки установленные в виртуальном окружении - my-first-blog\myvenv\Lib\site-packages
+- Все html шаблоны - my-first-blog\blog\templates\blog
+ Тесты - my-first-blog\blog\tests
+- CSS фаил - my-first-blog\blog\static\css
+- Библиотеки установленные в виртуальном окружении - my-first-blog\myvenv\Lib\site-packages
 
 Оформление
 =================================================

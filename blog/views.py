@@ -60,11 +60,12 @@ class LogoutView(View):
         return HttpResponseRedirect('/')
 
 
-
 def post_list(request):
-	posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-	return render(request,'blog/post_list.html',{'posts':posts})
-
+	if request.user.is_authenticated:
+		posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
+		return render(request,'blog/post_list.html',{'posts':posts})
+	else:
+	    return render(request, 'blog/unauthorized.html')
 
 
 def post_detail(request, pk):
@@ -81,6 +82,8 @@ def post_detail(request, pk):
 		else:
 			comment_form = CommentForm()
 			return render(request,'blog/post_detail.html',{'post': post,'comments': comments,'comment_form': comment_form})
+	else:
+		return render(request, 'blog/unauthorized.html')
 
 
 
@@ -98,6 +101,8 @@ def post_new(request):
         else:
             form = PostForm()
         return render(request, 'blog/post_edit.html', {'form': form})
+    else:
+    	return render(request, 'blog/unauthorized.html')
 
 
 
@@ -120,6 +125,21 @@ def post_edit(request, pk):
 			return render(request, 'blog/post_edit.html', {'form': form})
 		else:
 			return render(request, 'blog/not_owner.html')
+	else:
+		return render(request, 'blog/unauthorized.html')
 
 
+
+
+def post_delete(request, pk):
+	if request.user.is_authenticated:
+
+		post = get_object_or_404(Post, pk=pk)
+		if request.user == post.author:
+			post.delete()
+			return HttpResponseRedirect("/")
+		else:
+			return render(request, 'blog/not_owner.html')
+	else:
+	    return render(request, 'blog/unauthorized.html')
 

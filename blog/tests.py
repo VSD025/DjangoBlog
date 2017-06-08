@@ -3,7 +3,14 @@ from .models import Post,Comment
 from django.utils import timezone
 from django.core.urlresolvers import reverse
 from .forms import *
+#from django.utils import unittest
 
+
+class PublicViewTest(TestCase):
+    def test_anonymous_can_access_localhost(self):
+        url = Client()
+        response = url.get('/post/8/')
+        self.assertEqual(response.status_code, 200)#Code 200 -  because in this project we using the template - unauthorized.html 
 
 
 
@@ -32,12 +39,11 @@ class Setup_Class(TestCase):
 
 class Post_Form_Test(TestCase):
 
-    # Valid Form Data
     def test_PostForm_valid(self):
         form = PostForm(data={'title': "some title", 'text': "some text"})
         self.assertTrue(form.is_valid())
 
-    # Invalid Form Data
+
     def test_PostForm_invalid(self):
         form = PostForm(data={'title': "", 'text': ""})
 
@@ -51,12 +57,13 @@ class Setup_Class(TestCase):
 
 class Comment_Form_Test(TestCase):
 
-    # Valid Form Data
+
     def test_CommentForm_valid(self):
         form = CommentForm(data={'name': "seva", 'email': "vsevolod.shutyuk@mail.ru", 'body':"Great article"})
         self.assertTrue(form.is_valid())
 
-    # Invalid Form Data
+
     def test_CommentForm_invalid(self):
         form = PostForm(data={'name': "", 'email': "", 'body':""})
+
 

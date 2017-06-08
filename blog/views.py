@@ -14,7 +14,7 @@ from django.contrib.auth import login
 from django.views.generic.edit import FormView
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.forms import AuthenticationForm
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 def search_form(request):
@@ -63,9 +63,18 @@ class LogoutView(View):
 def post_list(request):
 	if request.user.is_authenticated:
 		posts = Post.objects.filter(published_date__lte=timezone.now()).order_by('published_date')
-		return render(request,'blog/post_list.html',{'posts':posts})
+		paginator = Paginator(posts, 5)  
+		page = request.GET.get('page')
+		try:
+			posts = paginator.page(page)
+		except PageNotAnInteger:
+			posts = paginator.page(1)
+		except EmptyPage:
+			posts = paginator.page(paginator.num_pages)
+		return render(request,'blog/post_list.html',{'page':page,'posts':posts})
 	else:
 	    return render(request, 'blog/unauthorized.html')
+
 
 
 def post_detail(request, pk):
@@ -142,4 +151,13 @@ def post_delete(request, pk):
 			return render(request, 'blog/not_owner.html')
 	else:
 	    return render(request, 'blog/unauthorized.html')
+
+
+def searchtext(request):
+    if 'inquiry' in request.GET and request.GET['inquiry']:
+        inquiry = request.GET['inquiry']
+        posts = Post.objects.filter(text__icontains=inquiry)
+        return render_to_response('blog/post_list.html',{'posts': posts, 'query': inquiry})
+    else:
+        return HttpResponse('Please submit a search term!')
 

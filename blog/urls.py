@@ -13,5 +13,5 @@ urlpatterns = [
 	url(r'^login/$', views.LoginFormView.as_view(), name = 'login'),
 	url(r'^logout/$', views.LogoutView.as_view(), name = 'logout'),
 	url(r'^post/(?P<pk>[0-9]+)/delete/$', views.post_delete, name='delete'),
-
+	url(r'^search_text/$', views.searchtext, name = 'searchtext_result'),
 ] 
